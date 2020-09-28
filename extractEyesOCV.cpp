@@ -62,12 +62,12 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, mxArray *prhs[])
     equalizeHist( frame_gray, frame_gray );
     
     //Detect Faces (use this to change parameters) //changed size from 30 to 50 and scale to 2
-    face_cascade.detectMultiScale( frame_gray, faces, 2, 2, 0|CV_HAAR_SCALE_IMAGE, Size(200,200) );
-    int i = 0;
-    for( size_t i; i < faces.size(); i++ )
+    face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|CV_HAAR_SCALE_IMAGE, Size(100,100) );
+    size_t i = 0;
+    for( i; i < faces.size(); i++ )
     {
         Point center( faces[i].x + faces[i].width*0.5, faces[i].y + faces[i].height*0.5 );
-        ellipse( *frame, center, Size( faces[i].width*0.5, faces[i].height*0.5), 0, 0, 360, Scalar( 255, 0, 255 ), 4, 8, 0 );
+        //ellipse( *frame, center, Size( faces[i].width*0.5, faces[i].height*0.5), 0, 0, 360, Scalar( 255, 0, 255 ), 4, 8, 0 );
 
         Mat faceROI = frame_gray( faces[i] );
         std::vector<Rect> eyes;
@@ -78,8 +78,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, mxArray *prhs[])
         for( size_t j = 0; j < eyes.size(); j++ )
         {
             Point center( faces[i].x + eyes[j].x + eyes[j].width*0.5, faces[i].y + eyes[j].y + eyes[j].height*0.5 );
+            Point TR(faces[i].x+eyes[j].x,                  faces[i].y+eyes[j].y);
+            Point BL(faces[i].x+eyes[j].x+eyes[j].width,    faces[i].y+eyes[j].y+eyes[j].height);       
             int radius = cvRound( (eyes[j].width + eyes[j].height)*0.25 );
-            circle( *frame, center, radius, Scalar( 255, 0, 0 ), 4, 8, 0 );
+            //circle( *frame, center, radius, Scalar( 255, 0, 0 ), 4, 8, 0 );
+            rectangle(*frame,TR,BL, Scalar(255,0,0),3);
         }
     }
     plhs[0] = ocvMxArrayFromImage_uint8(*frame);
