@@ -1,3 +1,5 @@
+%%% Taking snapshots from webcam. Converting snapshots to video.
+
 clc
 clear all
 close all
