@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 //GPU implementation for Haar Cascade
+=======
+>>>>>>> db3cd330eee36df26d815b6067498eb63f98270d
 // https://au.mathworks.com/help/matlab/matlab_external/standalone-example.html
 //C:\ProgramData\MATLAB\SupportPackages\R2020a\toolbox\vision\supportpackages\visionopencv\mexOpenCV.m
 //mexOpenCV extractEyesOCVGPU.cpp -lgpu -lmwocvgpumex -largeArrayDims
