@@ -20,7 +20,7 @@ Firstly, download the computer vision toolbox from MATLAB. Once that is done, fo
 Once that is done, first try to compile one of the OpenCV example files.
 
 If that's successful, attempt to compile the file 'extractEyesOCVPoints.cpp' using MexOpenCV. The command for this is:
-> >> mexOpenCV extractEyesOCVPoints.cpp -compatibleArrayDims
+> \>\> mexOpenCV extractEyesOCVPoints.cpp -compatibleArrayDims
 
 if it compiles successfully, then congrats. You've got through the hardest part.
 
@@ -61,7 +61,7 @@ To further simply what this is, it uses binary images (haar features) to detect 
 Originally used for Iris Recognition, it's an efficient algorithm to find the Iris (and pupil) of an individual. We only segment the iris due to the fact that it's hard to distinguish the pupil from the iris in some scenarios and it isn't worth doing so anyway. This was chosen over the more popular Hough transform for both less processing power required and allowing approximation of eye movement.
 
 ### Geometric Gaze Estimation
-[Based off this paper](https://ieeexplore.ieee.org/document/7820784) which effectively uses some clever and simple geometry to estimate the gaze position. You can backtrack from the 'gaze_estimation.m' file but effectively there's two perpendicular triangles made with the centre of the eye ball, the origin and the estimated point of gaze. Alpha is theX direction and Beta is in the Y direction
+[Based off this paper](https://ieeexplore.ieee.org/document/7820784) which effectively uses some clever and simple geometry to estimate the gaze position. You can backtrack from the 'gaze_estimation.m' file but effectively there's two perpendicular triangles made with the centre of the eye ball, the origin and the estimated point of gaze. Alpha is the X angle direction and Beta is the angle in the Y direction.
 
 ## Supplementary Files and other notes
 These were other pieces of code that we had written as an attempt for GPU haar cascade implementation, Webcam implementation and other bits that may or may not be functional. The most interesting one is the 'discreteDeltaPixels.m' because that shows you the possible discrete resolution and change when the centre of the eye moves between pixels, effectively plotting the monitor/plane. Some cpp files such as the example haar cascades were files from OpenCV archives that we used as reference to write the Haar cascade code in MEX. These files aren't required, but they show what ambitions we've had with this project initially. Frame converter splits the video every couple frames into images of 1920x1080, which was initially to be used for MATLAB's stereovideo calibration tool as it requires pictures of a checkerboard canvas. This also relates back to the second tab of stereovideo.mlapp which does the same thing. Haar_video.mlapp is a crack at live video, though it was just way too laggy and poorly implemented.
