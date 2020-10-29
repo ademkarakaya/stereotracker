@@ -1,4 +1,3 @@
-
 // Working CPU Implementation of Haar cascade for MATLAB
 // https://au.mathworks.com/help/matlab/matlab_external/standalone-example.html
 //C:\ProgramData\MATLAB\SupportPackages\R2020a\toolbox\vision\supportpackages\visionopencv\mexOpenCV.m
@@ -32,10 +31,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, mxArray *prhs[])
     
     Mat frame_gray;
     std::vector<Rect> faces;
-    plhs[0] = mxCreateDoubleMatrix(4,4,mxREAL);
-    double *pind = mxGetPr(plhs[0]);
-    //const int *dim_array;
-    //int l,m,n, dims;
+    const int *dim_array;
+    int l,m,n, dims;
     
     //-- 1. Load the cascade
     if( !face_cascade.load( face_cascade_name ) )
@@ -65,9 +62,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, mxArray *prhs[])
     equalizeHist( frame_gray, frame_gray );
     
     //Detect Faces (use this to change parameters) //changed size from 30 to 50 and scale to 2
-    face_cascade.detectMultiScale( frame_gray, faces, 1.1, 3, 0|CV_HAAR_SCALE_IMAGE, Size(200,200));
+    face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|CV_HAAR_SCALE_IMAGE, Size(100,100) );
     size_t i = 0;
-    
     for( i; i < faces.size(); i++ )
     {
         Point center( faces[i].x + faces[i].width*0.5, faces[i].y + faces[i].height*0.5 );
@@ -77,7 +73,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, mxArray *prhs[])
         std::vector<Rect> eyes;
 
     //-- In each face, detect eyes //changed size from 30 to 50 and scale to 2
-        eyes_cascade.detectMultiScale( faceROI, eyes, 1.1, 4, 0 |CV_HAAR_SCALE_IMAGE, Size(120,120), Size(200,200) );
+        eyes_cascade.detectMultiScale( faceROI, eyes, 1.3, 2, 0 |CV_HAAR_SCALE_IMAGE, Size(100,100) );
 
         for( size_t j = 0; j < eyes.size(); j++ )
         {
@@ -85,32 +81,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, mxArray *prhs[])
             Point TR(faces[i].x+eyes[j].x,                  faces[i].y+eyes[j].y);
             Point BL(faces[i].x+eyes[j].x+eyes[j].width,    faces[i].y+eyes[j].y+eyes[j].height);       
             int radius = cvRound( (eyes[j].width + eyes[j].height)*0.25 );
-            //Draw a: //circle( *frame, center, radius, Scalar( 255, 0, 0 ), 4, 8, 0 );
+            //circle( *frame, center, radius, Scalar( 255, 0, 0 ), 4, 8, 0 );
             rectangle(*frame,TR,BL, Scalar(255,0,0),3);
-            
-            if(eyes.size() < 3 && faces.size() < 3)
-            {
-                //X Co-ordinate
-                pind[i*8+j*4] = (double)(faces[i].x+eyes[j].x);
-                
-                //Y Co-Ordinate
-                pind[i*8+j*4+1] = (double)(faces[i].y+eyes[j].y);
-                
-                //Width
-                pind[i*8+j*4+2] = (double)(eyes[j].width);
-                
-                //Height
-                pind[i*8+j*4+3] = (double)(eyes[j].height);
-                
-            }
         }
-
-    
     }
-    
-
-    plhs[1] = ocvMxArrayFromImage_uint8(*frame);
-    
+    plhs[0] = ocvMxArrayFromImage_uint8(*frame);
     return;
 }
 
