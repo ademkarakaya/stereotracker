@@ -1,7 +1,7 @@
 # Online Stereo-Video Based Eye Tracking For Non-Compliant Subjects
 *D.Duric, A.Karakaya. RMIT University Capstone Project 2020*
 
-This is a stereo-video camera setup designed to track an individual's gaze. It is currently a proof-of-concept that demonstrates the main components the system relies on.
+This is a stereo-video camera setup designed to track a "Non-Compliant" individual's gaze. It is currently a proof-of-concept that demonstrates the main components the system relies on.
 It is currently contained within the stereovideo.mlapp application file that can be run on MATLAB.
 
 ## How to run this system
